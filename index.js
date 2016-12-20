@@ -13,11 +13,14 @@ function gameSanmoku() {
   selectNum('maru', 2);
   selectNum('batsu', 1);
   selectNum('maru', 8);
-  selectNum('batsu', 7);
+  selectNum('batsu', 7);                                                                                                                                                                                                                      
   //描画
   drawBoard();
-  console.log(maru);
-  console.log(batsu);
+  //勝利判定
+  if(batsu.length >= 3) {
+    judgmentWin(maru);
+    judgmentWin(batsu);
+  }
 }
 
 
@@ -40,9 +43,32 @@ function selectNum(role, number) {
 
 /**
  * 勝ち判定
+ * role 
  */
-function judgmentWin() {
-  //どうする？
+function judgmentWin(rolearray) {
+  let ok = 0;
+  for(let i = 0; i < okPattern.length; i++) {
+    
+    // 勝利判定
+    if(ok === 3) {
+      let role = 'maru';
+      if(rolearray === batsu) {
+        role = 'batsu';
+      }
+      console.log("winner→ " + role );
+      ok = 0;
+      break;
+    } else {
+      ok = 0;
+    }
+
+    // パターン照合
+    for(let j = 0; j < okPattern[i].length; j++) {
+      if(rolearray.indexOf(okPattern[i][j]) >= 0) {
+        ok++;
+      }
+    }
+  }
 }
 
 
