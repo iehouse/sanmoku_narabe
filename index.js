@@ -14,13 +14,13 @@ let issue = 0;
 // game
 for (var i = 0; i < btnnum.length; i++) {
   btnnum[i].addEventListener("click", function () {
-    if(issue === 1) {
+    if (issue === 1) {
       window.alert('もう一回！');
       location.reload();
     }
     if (board[this.dataset.number] === 'O' || board[this.dataset.number] === 'X') {
-      if(issue === 0){
-      window.alert('ここには書き込めません！');
+      if (issue === 0) {
+        window.alert('ここには書き込めません！');
       }
       return;
     }
@@ -42,8 +42,13 @@ for (var i = 0; i < btnnum.length; i++) {
     }
     // 引き分け
     if (playnum === 9) {
-      htmlattention.innerHTML = '<p class="bg-primary text-center">引き分け！</p>';
-      issue = 1;
+      judgmentWin(maru);
+      judgmentWin(batsu);
+      if (issue === 0) {
+        htmlattention.innerHTML = '<p class="bg-primary text-center">引き分け！</p>';
+        issue = 1;
+      }
+
     }
   }, false);
 };
