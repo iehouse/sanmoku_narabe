@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>三目並べ</title>
+  <style>
+    .body {
+      font-size: 16px;
+    }
+    .board_wrap {
+      width: 500px;
+      display: flex;
+      flex-wrap:         wrap;
+    }
+    .board_num {
+      width: 150px;
+      height: 150px;
+      border: 1px solid #efefef;
+      font-size: 1.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="board" class="board_wrap">
+    <div id="0" class="board_num js_num" data-number="0"></div>
+    <div id="1" class="board_num js_num" data-number="1"></div>
+    <div id="2" class="board_num js_num" data-number="2"></div>
+    <div id="3" class="board_num js_num" data-number="3"></div>
+    <div id="4" class="board_num js_num" data-number="4"></div>
+    <div id="5" class="board_num js_num" data-number="5"></div>
+    <div id="6" class="board_num js_num" data-number="6"></div>
+    <div id="7" class="board_num js_num" data-number="7"></div>
+    <div id="8" class="board_num js_num" data-number="8"></div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
