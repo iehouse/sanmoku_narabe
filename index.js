@@ -2,18 +2,17 @@
 
 let board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 const okPattern = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-const htmlboard = document.getElementById('board');
-const htmlattention = document.getElementById('attention');
-const btnnum = document.getElementsByClassName('js_num');
+const htmlAttention = document.getElementById('attention');
+const btnNum = document.getElementsByClassName('js_num');
 
-let maru = [];
-let batsu = [];
-let playnum = 0;
+let maruBoardIndexes = [];
+let batsuBoardIndexes = [];
+let playNum = 0;
 let issue = 0;
 
 // game
-for (var i = 0; i < btnnum.length; i++) {
-  btnnum[i].addEventListener("click", function () {
+for (var i = 0; i < btnNum.length; i++) {
+  btnNum[i].addEventListener("click", function () {
     if (issue === 1) {
       window.alert('もう一回！');
       location.reload();
@@ -25,27 +24,27 @@ for (var i = 0; i < btnnum.length; i++) {
       return;
     }
     let isMaru = true;
-    playnum++;
+    playNum++;
     // プレイヤー切り替え
-    if (playnum % 2 === 0) {
+    if (playNum % 2 === 0) {
       isMaru = false;
-      htmlattention.innerHTML = '<p class="bg-info text-center">〇の番です</p>';
+      htmlAttention.innerHTML = '<p class="bg-info text-center">〇の番です</p>';
     } else {
       isMaru = true;
-      htmlattention.innerHTML = '<p class="bg-info text-center">×の番です</p>';
+      htmlAttention.innerHTML = '<p class="bg-info text-center">×の番です</p>';
     }
     selectNum(isMaru, this.dataset.number);
     drawBoard();
-    if (playnum >= 5) {
-      judgmentWin(maru);
-      judgmentWin(batsu);
+    if (playNum >= 5) {
+      judgmentWin(maruBoardIndexes);
+      judgmentWin(batsuBoardIndexes);
     }
     // 引き分け
-    if (playnum === 9) {
-      judgmentWin(maru);
-      judgmentWin(batsu);
+    if (playNum === 9) {
+      judgmentWin(maruBoardIndexes);
+      judgmentWin(batsuBoardIndexes);
       if (issue === 0) {
-        htmlattention.innerHTML = '<p class="bg-primary text-center">引き分け！</p>';
+        htmlAttention.innerHTML = '<p class="bg-primary text-center">引き分け！</p>';
         issue = 1;
       }
 
@@ -64,10 +63,10 @@ function selectNum(role, number) {
   let sign = 'X';
   if (role) {
     sign = 'O';
-    maru.push(board[number]);
+    maruBoardIndexes.push(board[number]);
   } else {
     sign = 'X';
-    batsu.push(board[number]);
+    batsuBoardIndexes.push(board[number]);
   }
   board[number] = sign;
 }
@@ -75,18 +74,18 @@ function selectNum(role, number) {
 
 /**
  * 勝ち判定をする
- * @param {Array} rolearray マークを付けた位置 
+ * @param {Array} roleArray マークを付けた位置 
  */
-function judgmentWin(rolearray) {
+function judgmentWin(roleArray) {
   let ok = 0;
   for (let i = 0; i < okPattern.length; i++) {
     // 勝利判定
     if (ok === 3) {
       let role = '〇';
-      if (rolearray === batsu) {
+      if (roleArray === batsuBoardIndexes) {
         role = '×';
       }
-      htmlattention.innerHTML = '<p class="bg-primary text-center">' + role + 'の勝ち！</p>';
+      htmlAttention.innerHTML = '<p class="bg-primary text-center">' + role + 'の勝ち！</p>';
       ok = 0;
       issue = 1;
       break;
@@ -96,7 +95,7 @@ function judgmentWin(rolearray) {
 
     // パターン照合
     for (let j = 0; j < okPattern[i].length; j++) {
-      if (rolearray.indexOf(okPattern[i][j]) >= 0) {
+      if (roleArray.indexOf(okPattern[i][j]) >= 0) {
         ok++;
       }
     }
