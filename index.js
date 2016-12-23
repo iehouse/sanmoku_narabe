@@ -1,74 +1,88 @@
 'use strict';
 
-let board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+let board, maruBoardIndexes, batsuBoardIndexes, playNum, issue;
 const okPattern = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 const htmlAttention = document.getElementById('attention');
 const btnNum = document.getElementsByClassName('js_num');
 
-let maruBoardIndexes = [];
-let batsuBoardIndexes = [];
-let playNum = 0;
-let issue = 0;
 
-// game
+window.addEventListener('load', init);
+
 for (var i = 0; i < btnNum.length; i++) {
-  btnNum[i].addEventListener("click", function () {
-    if (issue === 1) {
-      window.alert('もう一回！');
-      location.reload();
-    }
-    if (board[this.dataset.number] === 'O' || board[this.dataset.number] === 'X') {
-      if (issue === 0) {
-        window.alert('ここには書き込めません！');
-      }
-      return;
-    }
-    let isMaru = true;
-    playNum++;
-    // プレイヤー切り替え
-    if (playNum % 2 === 0) {
-      isMaru = false;
-      htmlAttention.innerHTML = '<p class="bg-info text-center">〇の番です</p>';
-    } else {
-      isMaru = true;
-      htmlAttention.innerHTML = '<p class="bg-info text-center">×の番です</p>';
-    }
-    selectNum(isMaru, this.dataset.number);
-    drawBoard();
-    if (playNum >= 5) {
-      judgmentWin(maruBoardIndexes);
-      judgmentWin(batsuBoardIndexes);
-    }
-    // 引き分け
-    if (playNum === 9) {
-      judgmentWin(maruBoardIndexes);
-      judgmentWin(batsuBoardIndexes);
-      if (issue === 0) {
-        htmlAttention.innerHTML = '<p class="bg-primary text-center">引き分け！</p>';
-        issue = 1;
-      }
-
-    }
-  }, false);
+  btnNum[i].addEventListener("click", handleBtnNumClick);
 };
+
+
+/**
+ * 初期化
+ */
+function init() {
+  board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  maruBoardIndexes = [];
+  batsuBoardIndexes = [];
+  playNum = 0;
+  issue = 0;
+}
+
+/**
+ * ゲームの実行
+ */
+function handleBtnNumClick() {
+  if (issue === 1) {
+    window.alert('もう一回！');
+    location.reload();
+  }
+  if (board[this.dataset.number] === 'O' || board[this.dataset.number] === 'X') {
+    if (issue === 0) {
+      window.alert('ここには書き込めません！');
+    }
+    return;
+  }
+  let isMaru = true;
+  playNum++;
+  // プレイヤー切り替え
+  if (playNum % 2 === 0) {
+    isMaru = false;
+    htmlAttention.innerHTML = '<p class="bg-info text-center">〇の番です</p>';
+  } else {
+    isMaru = true;
+    htmlAttention.innerHTML = '<p class="bg-info text-center">×の番です</p>';
+  }
+  selectNum(isMaru, this.dataset.number);
+  drawBoard();
+  if (playNum >= 5) {
+    judgmentWin(maruBoardIndexes);
+    judgmentWin(batsuBoardIndexes);
+  }
+  // 引き分け
+  if (playNum === 9) {
+    judgmentWin(maruBoardIndexes);
+    judgmentWin(batsuBoardIndexes);
+    if (issue === 0) {
+      htmlAttention.innerHTML = '<p class="bg-primary text-center">引き分け！</p>';
+      issue = 1;
+    }
+
+  }
+}
 
 
 /**
  * 盤上にマークを書き込む
  * @param {string} role 先攻か後攻か判断
- * @param {number} number 盤上の位置
+ * @param {number} boardIndex 盤上の位置
  */
-function selectNum(role, number) {
+function selectNum(role, boardIndex) {
 
   let sign = 'X';
   if (role) {
     sign = 'O';
-    maruBoardIndexes.push(board[number]);
+    maruBoardIndexes.push(board[boardIndex]);
   } else {
     sign = 'X';
-    batsuBoardIndexes.push(board[number]);
+    batsuBoardIndexes.push(board[boardIndex]);
   }
-  board[number] = sign;
+  board[boardIndex] = sign;
 }
 
 
@@ -116,3 +130,5 @@ function drawBoard() {
     }
   }
 }
+
+
