@@ -24,17 +24,17 @@ for (var i = 0; i < btnnum.length; i++) {
       }
       return;
     }
-    let player = 'maru';
+    let isMaru = true;
     playnum++;
     // プレイヤー切り替え
     if (playnum % 2 === 0) {
-      player = 'batsu';
+      isMaru = false;
       htmlattention.innerHTML = '<p class="bg-info text-center">〇の番です</p>';
     } else {
-      player = 'maru';
+      isMaru = true;
       htmlattention.innerHTML = '<p class="bg-info text-center">×の番です</p>';
     }
-    selectNum(player, this.dataset.number);
+    selectNum(isMaru, this.dataset.number);
     drawBoard();
     if (playnum >= 5) {
       judgmentWin(maru);
@@ -62,7 +62,7 @@ for (var i = 0; i < btnnum.length; i++) {
 function selectNum(role, number) {
 
   let sign = 'X';
-  if (role === 'maru') {
+  if (role) {
     sign = 'O';
     maru.push(board[number]);
   } else {
